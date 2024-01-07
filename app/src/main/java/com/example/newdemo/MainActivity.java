@@ -8,8 +8,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
 
 
 import com.google.android.material.navigation.NavigationView;
@@ -47,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new SettingsFragment()).commit();
+                showDialog();
                 break;
             case R.id.nav_share:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ShareFragment()).commit();
@@ -58,6 +66,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void showDialog() {
+        final Dialog dialog =new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottomsheetlayout);
+
+        LinearLayout accauntLayout = dialog.findViewById(R.id.layoutAccaunt);
+        LinearLayout notificationLayout = dialog.findViewById(R.id.layoutNotification);
+        LinearLayout privacyLayout = dialog.findViewById(R.id.layoutPrivacy);
+        LinearLayout helpLayout = dialog.findViewById(R.id.layoutHelp);
+        LinearLayout aboutLayout = dialog.findViewById(R.id.layoutAbout);
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations=R.style.DialoAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+    }
+
 
     @Override
     public void onBackPressed() {
